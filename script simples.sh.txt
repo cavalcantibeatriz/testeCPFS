@@ -1,0 +1,34 @@
+
+java -version
+if [ $? = 0 ];
+then
+        clear
+        echo  "buscando java no sistema..."
+        sleep 3
+        clear
+        echo "java já instalado no sistema, realizando download do nosso software..."
+        sleep 3
+        wget https://raw.githubusercontent.com/ByteBite-Brasil/BybteBite-Looca/main/target/LoginByteBite-1.0-SNAPSHOT-jar-with-dependencies.jar
+        clear
+        sleep 3
+        clear
+        echo "Download concluido, abrindo a tela de login..."
+        sleep 3
+        java -jar LoginByteBite-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+else
+        clear
+        echo "buscando java no sistema..."        
+        sleep 3
+        echo "java nao encontrado, iniciando instalação automatica..."
+        sudo apt install openjdk-17-jdk openjdk-17-jre -y
+        sleep 10
+        echo "Java 17 Instalado com Sucesso!!!"
+        sleep 3
+        echo "Iniciando download do nosso software de monitoramento..." 
+        wget https://raw.githubusercontent.com/ByteBite-Brasil/BybteBite-Looca/main/target/LoginByteBite-1.0-SNAPSHOT-jar-with-dependencies.jar
+        clear
+        sleep 3
+        echo "Software instalado com sucesso! Abrindo tela de login..."
+        java -jar LoginByteBite-1.0-SNAPSHOT-jar-with-dependencies.jar
+fi
