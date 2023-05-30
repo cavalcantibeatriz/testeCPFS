@@ -116,12 +116,12 @@ public class Captura extends Conexao {
             logger.setLevel(Level.ALL);
         }
         
-        if (sistemaOperacional.equalsIgnoreCase("linux")) {
+        if (sistemaOperacional.equalsIgnoreCase("Ubuntu")) {
              Path path = Paths.get("/mnt/c/Users/Public/Desktop/LogsByteBite/Captura/");
             if (!Files.exists(path)) {
                 Files.createDirectories(path);
             }
-            FileHandler fileHandler = new FileHandler(String.format("/mnt/c/Users/Public/Desktop/LogsByteBite/Captura/%s.txt", dataFormatada));
+            FileHandler fileHandler = new FileHandler(String.format("/home/ubuntu/Desktop/LogsByteBite/Captura/%s.txt", dataFormatada));
             fileHandler.setFormatter(new Formatter() {
                 private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd >> HH:mm:ss");
 

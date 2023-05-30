@@ -61,12 +61,12 @@ public class Alerta extends Conexao {
             logger.setLevel(Level.ALL);
         }
         
-        if (sistemaOperacional.equalsIgnoreCase("linux")) {
-             Path path = Paths.get("/mnt/c/Users/Public/Desktop/LogsByteBite/Alertas/");
+        if (sistemaOperacional.equalsIgnoreCase("Ubuntu")) {
+             Path path = Paths.get("/home/ubuntu/Desktop/LogsByteBite/Alertas/");
             if (!Files.exists(path)) {
                 Files.createDirectories(path);
             }
-            FileHandler fileHandler = new FileHandler(String.format("/mnt/c/Users/Public/Desktop/LogsByteBite/Alertas/%s.txt", dataFormatada));
+            FileHandler fileHandler = new FileHandler(String.format("/home/ubuntu/Desktop/LogsByteBite/Alertas/%s.txt", dataFormatada));
             fileHandler.setFormatter(new Formatter() {
                 private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd >> HH:mm:ss");
 
