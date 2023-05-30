@@ -117,7 +117,7 @@ public class Captura extends Conexao {
         }
         
         if (sistemaOperacional.equalsIgnoreCase("Ubuntu")) {
-             Path path = Paths.get("/mnt/c/Users/Public/Desktop/LogsByteBite/Captura/");
+             Path path = Paths.get("/home/ubuntu/Desktop/LogsByteBite/Captura/");
             if (!Files.exists(path)) {
                 Files.createDirectories(path);
             }
