@@ -78,9 +78,9 @@ public class Login extends javax.swing.JFrame {
             logger.addHandler(fileHandler);
             logger.setLevel(Level.ALL);
         }
-        
-        if (sistemaOperacional.equalsIgnoreCase("linux")) {
-             Path path = Paths.get("/mnt/c/Users/Public/Desktop/LogsByteBite/Login/");
+
+        if (sistemaOperacional.equalsIgnoreCase("Ubuntu")) {
+            Path path = Paths.get("/mnt/c/Users/Public/Desktop/LogsByteBite/Login/");
             if (!Files.exists(path)) {
                 Files.createDirectories(path);
             }
@@ -112,11 +112,13 @@ public class Login extends javax.swing.JFrame {
         getContentPane().setBackground(Color.gray);
     }
 
-    public Boolean selectLogin(String id, String senha) {
+    public Boolean selectLogin(String id, String senha) throws IOException {
         try {
             Map<String, Object> registro = con.queryForMap(
                     "select * from maquina where idMaquina = ? and senha = ?", id, senha);
             System.out.println("Login realizado com sucesso.");
+            logGeral.genereteLoginSucesso();
+            logGeral.genereteInfos();
             return true;
         } catch (EmptyResultDataAccessException e) {
             return false;
@@ -236,27 +238,33 @@ public class Login extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String id = jTextField1.getText();
         String senha = jPasswordField1.getText();
-//        String senha = jTextField2.getText();
-        if (selectLogin(id, senha)) {
-            nextScreen();
-            captura.mostrarInfoSistema();
-            comp.inserirComponente();
-            if (comp.consultarConfig(id) < 3) {
-                comp.inserirConfiguracao(id);
-            }
-            new Timer().scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    Date dataHoraAtual = new Date();
-                    String data = new SimpleDateFormat("dd/MM/yyyy").format(dataHoraAtual);
-                    String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
-                    captura.inserirNoBanco(id, senha, data, hora);
-                    captura.inserirNoBancoMySQL(id, senha, data, hora);
+        try {
+            //        String senha = jTextField2.getText();
+            if (selectLogin(id, senha)) {
+                nextScreen();
+                captura.mostrarInfoSistema();
+                comp.inserirComponente();
+                if (comp.consultarConfig(id) < 3) {
+                    comp.inserirConfiguracao(id);
                 }
-            }, 0, 10000);
+                new Timer().scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        Date dataHoraAtual = new Date();
+                        String data = new SimpleDateFormat("dd/MM/yyyy").format(dataHoraAtual);
+                        String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
+                        captura.inserirNoBanco(id, senha, data, hora);
+                        captura.inserirNoBancoMySQL(id, senha, data, hora);
+                    }
+                }, 0, 10000);
 
-        } else {
-            lblErro.setText("Credenciais incorretas.");
+            } else {
+                lblErro.setText("Credenciais incorretas.");
+                logGeral.genereteErroLogin();
+
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -268,12 +276,12 @@ public class Login extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) throws IOException {
-        
+
         logFormatacao();
         Captura.logFormatacao();
         Componente.logFormatacao();
         Alerta.logFormatacao();
-        
+
 
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
